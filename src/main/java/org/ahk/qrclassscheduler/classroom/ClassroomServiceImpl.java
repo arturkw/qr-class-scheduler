@@ -30,13 +30,13 @@ public class ClassroomServiceImpl implements ClassroomService {
     }
 
     @Override
-    public List<ClassroomDto> classRoomDtos(String jSessionId) {
-        return classrooms.stream().map(c -> toDto(c, jSessionId)).toList();
+    public List<ClassroomDto> classRoomDtos() {
+        return classrooms.stream().map(this::toDto).toList();
     }
 
-    private ClassroomDto toDto(Classroom c, String jSessionId) {
+    private ClassroomDto toDto(Classroom c) {
         return ClassroomDto.builder()
-                .classRoomQrCode(registrationCodeService.classRoomQrCodeAsString(jSessionId, c.getId()))
+                .classRoomQrCode(registrationCodeService.classRoomQrCodeAsString(c.getId()))
                 .build();
     }
 

@@ -20,6 +20,7 @@ class ActivityController {
 
     @GetMapping()
     List<ActivityDto> activities(@CookieValue(value = "JSESSIONID") String sessionId, @RequestBody ActivitiesRequest qrCode) {
+        //TODO: find sth better than cookie... ie JWT token..
         return activityService.activitiesDto(qrCode.classRoomQrCode, sessionId);
     }
 

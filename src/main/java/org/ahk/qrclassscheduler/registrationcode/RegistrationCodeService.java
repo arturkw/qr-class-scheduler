@@ -11,7 +11,7 @@ public interface RegistrationCodeService {
 
     ActivityRegistrationCode activityRegistrationCode(String registrationQrCode);
 
-    String classRoomQrCodeAsString(String jSessionId, String classRoomId);
+    String classRoomQrCodeAsString(String classRoomId);
 
     ClassroomQrCode classRoomQrCode(String classroomQrCode);
 }

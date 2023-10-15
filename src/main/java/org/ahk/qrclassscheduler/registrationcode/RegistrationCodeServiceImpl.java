@@ -46,10 +46,9 @@ public class RegistrationCodeServiceImpl implements RegistrationCodeService {
     }
 
     @Override
-    public String classRoomQrCodeAsString(String jSessionId, String classRoomId) {
+    public String classRoomQrCodeAsString(String classRoomId) {
         ClassroomQrCode qrCode = ClassroomQrCode.builder()
                 .classRoomId(classRoomId)
-                .sessionId(jSessionId)
                 .expiresAt(clockService.localDateTimeNow().plusMinutes(codeLifeTime))
                 .build();
         return qrCodeService.encode(mapperService.toJson(qrCode));
@@ -58,7 +57,6 @@ public class RegistrationCodeServiceImpl implements RegistrationCodeService {
     @Override
     public ClassroomQrCode classRoomQrCode(String classroomQrCode) {
         ClassroomQrCode code = mapperService.fromString(classroomQrCode, ClassroomQrCode.class);
-        ownershipValidationService.validateCodeOwnership(code.getSessionId());
         if (clockService.localDateTimeNow().isAfter(code.getExpiresAt())) {
             throw new RuntimeException("Classroom Code Expired.");
         }

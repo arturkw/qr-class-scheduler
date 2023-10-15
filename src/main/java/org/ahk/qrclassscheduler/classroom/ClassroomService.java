@@ -10,5 +10,8 @@ public interface ClassroomService {
 
     List<Classroom> classrooms();
 
-    List<ClassroomDto> classRoomDtos(String jSessionId);
+    //This method displays QR codes visible on the LCD screen for every class
+    //It should not be here
+    //TODO: Each QR code should be valid for given period of time and be signed with a key...
+    List<ClassroomDto> classRoomDtos();
 }

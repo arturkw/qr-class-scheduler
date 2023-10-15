@@ -9,6 +9,5 @@ import java.time.LocalDateTime;
 @Builder
 public class ClassroomQrCode {
     private final String classRoomId;
-    private final String sessionId;
     private final LocalDateTime expiresAt;
 }
