@@ -10,7 +10,7 @@ Authorization: Basic user1 pass1
 Content-Type: application/json
 
 {
-  "classRoomQrCode": "CYFX"
+  "classRoomQrCode": "{\"classRoomId\":\"YKLQ\",\"sessionId\":\"D915F22B96535CB2668ABC7A3515121E\",\"expiresAt\":\"2023-10-15T16:41:06.088199338\"}"
 }
 
 ### ASSIGN USER TO ACTIVITY

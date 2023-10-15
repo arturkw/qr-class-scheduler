@@ -1,6 +1,5 @@
 package org.ahk.qrclassscheduler.ownership;
 
-import org.ahk.qrclassscheduler.registrationcode.model.ActivityRegistrationCode;
 import org.ahk.qrclassscheduler.security.SecurityService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ public class OwnershipValidationServiceTest {
         when(sessionRegistry.getSessionInformation(eq(sessionId))).thenReturn(sessionInformation);
         when(securityService.loggedUser()).thenReturn(user);
 
-        ownershipValidationService.validateCodeOwnership(ActivityRegistrationCode.builder().sessionId(sessionId).build());
+        ownershipValidationService.validateCodeOwnership(sessionId);
     }
 
     @Test
@@ -54,8 +53,7 @@ public class OwnershipValidationServiceTest {
         when(sessionRegistry.getSessionInformation(eq(sessionId))).thenReturn(null);
 
         RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> ownershipValidationService.validateCodeOwnership(ActivityRegistrationCode.builder().sessionId(sessionId).build())
-        );
+                () -> ownershipValidationService.validateCodeOwnership(sessionId));
         assertEquals("Unable to find session information.", exception.getMessage());
     }
 
@@ -73,8 +71,7 @@ public class OwnershipValidationServiceTest {
         when(securityService.loggedUser()).thenReturn(user2);
 
         RuntimeException exception = assertThrows(RuntimeException.class,
-                () -> ownershipValidationService.validateCodeOwnership(ActivityRegistrationCode.builder().sessionId(sessionId).build())
-        );
+                () -> ownershipValidationService.validateCodeOwnership(sessionId));
         assertEquals("Foreign session id.", exception.getMessage());
     }
 

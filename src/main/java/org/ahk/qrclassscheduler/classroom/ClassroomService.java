@@ -10,5 +10,5 @@ public interface ClassroomService {
 
     List<Classroom> classrooms();
 
-    List<ClassroomDto> classRoomDtos();
+    List<ClassroomDto> classRoomDtos(String jSessionId);
 }

@@ -4,10 +4,10 @@ import org.ahk.qrclassscheduler.activity.model.Activity;
 import org.ahk.qrclassscheduler.activity.model.ActivityDto;
 import org.ahk.qrclassscheduler.activity.model.Course;
 import org.ahk.qrclassscheduler.classroom.model.Classroom;
-import org.ahk.qrclassscheduler.clock.ClockService;
 import org.ahk.qrclassscheduler.qrcode.QRCodeService;
 import org.ahk.qrclassscheduler.registrationcode.RegistrationCodeService;
 import org.ahk.qrclassscheduler.registrationcode.model.ActivityRegistrationCode;
+import org.ahk.qrclassscheduler.registrationcode.model.ClassroomQrCode;
 import org.ahk.qrclassscheduler.validation.ValidationService;
 import org.ahk.qrclassscheduler.validation.exception.ActivityStartedException;
 import org.ahk.qrclassscheduler.validation.exception.SeatsNotAvailableException;
@@ -41,8 +41,6 @@ public class ActivityServiceTest {
     @Mock
     RegistrationCodeService registrationCodeService;
     @Mock
-    ClockService clockService;
-    @Mock
     ValidationService validationService;
 
     @BeforeEach
@@ -53,10 +51,11 @@ public class ActivityServiceTest {
         ActivityRegistrationCode registrationCode2 = registrationCode(activity, jsession2);
         ActivityRegistrationCode registrationCode3 = registrationCode(activity, jsession3);
 
-        lenient().when(clockService.localDateTimeNow()).thenReturn(LocalDateTime.now());
         lenient().when(registrationCodeService.activityRegistrationCode(qrcode1)).thenReturn(registrationCode);
         lenient().when(registrationCodeService.activityRegistrationCode(qrcode2)).thenReturn(registrationCode2);
         lenient().when(registrationCodeService.activityRegistrationCode(qrcode3)).thenReturn(registrationCode3);
+        lenient().when(registrationCodeService.classRoomQrCode(qrcode1)).thenReturn(ClassroomQrCode.builder().classRoomId(qrcode1).build());
+        lenient().when(registrationCodeService.classRoomQrCode(qrcode2)).thenReturn(ClassroomQrCode.builder().classRoomId(qrcode2).build());
         lenient().when(qrCodeService.decode(anyString())).thenAnswer(i -> i.getArguments()[0]);
     }
 

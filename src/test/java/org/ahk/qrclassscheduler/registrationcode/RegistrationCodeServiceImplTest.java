@@ -33,7 +33,7 @@ public class RegistrationCodeServiceImplTest {
 
         doNothing().when(ownershipValidationService).validateCodeOwnership(any());
 
-        String qrCode = registrationCodeService.registrationQrCode(sessionId, activityId);
+        String qrCode = registrationCodeService.activityQrCodeAsString(sessionId, activityId);
         ActivityRegistrationCode registrationCode = registrationCodeService.activityRegistrationCode(qrCode);
 
         assertEquals(sessionId, registrationCode.getSessionId());

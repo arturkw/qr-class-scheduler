@@ -2,7 +2,6 @@ package org.ahk.qrclassscheduler.ownership;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.ahk.qrclassscheduler.registrationcode.model.ActivityRegistrationCode;
 import org.ahk.qrclassscheduler.security.SecurityService;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -16,8 +15,8 @@ public class OwnershipValidationService {
     private final SecurityService securityService;
 
     @SneakyThrows
-    public void validateCodeOwnership(ActivityRegistrationCode registrationCode) {
-        SessionInformation sessionInformation = sessionRegistry.getSessionInformation(registrationCode.getSessionId());
+    public void validateCodeOwnership(String jSessionId) {
+        SessionInformation sessionInformation = sessionRegistry.getSessionInformation(jSessionId);
         if (sessionInformation == null) {
             throw new RuntimeException("Unable to find session information.");
         }

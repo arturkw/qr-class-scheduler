@@ -5,10 +5,10 @@ import org.ahk.qrclassscheduler.activity.model.Activity;
 import org.ahk.qrclassscheduler.activity.model.ActivityDto;
 import org.ahk.qrclassscheduler.activity.model.CourseDto;
 import org.ahk.qrclassscheduler.classroom.model.ClassroomDto;
-import org.ahk.qrclassscheduler.clock.ClockService;
 import org.ahk.qrclassscheduler.qrcode.QRCodeService;
 import org.ahk.qrclassscheduler.registrationcode.RegistrationCodeService;
 import org.ahk.qrclassscheduler.registrationcode.model.ActivityRegistrationCode;
+import org.ahk.qrclassscheduler.registrationcode.model.ClassroomQrCode;
 import org.ahk.qrclassscheduler.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +25,6 @@ public class ActivityService {
     private final Map<String, List<Activity>> activitiesByClassRoom = new ConcurrentHashMap<>();
     private final QRCodeService qrCodeService;
     private final RegistrationCodeService registrationCodeService;
-    private final ClockService clockService;
     private final ValidationService validationService;
 
     public List<Activity> classRoomActivities(String classRoomQrCode) {
@@ -38,12 +37,13 @@ public class ActivityService {
     }
 
     public List<ActivityDto> activitiesDto(String classRoomQrCode, String sessionId) {
-        List<Activity> activities = classRoomActivities(classRoomQrCode);
+        ClassroomQrCode code = registrationCodeService.classRoomQrCode(classRoomQrCode);
+        List<Activity> activities = classRoomActivities(code.getClassRoomId());
         return activities.stream().map(a -> ActivityDto.builder()
                         .startDate(a.getStartDate())
                         .classroom(ClassroomDto.builder().classRoomQrCode(a.getClassroom().getId()).build())
                         .course(CourseDto.builder().name(a.getCourse().getName()).build())
-                        .registrationQrCode(registrationCodeService.registrationQrCode(sessionId, a.getId()))
+                        .registrationQrCode(registrationCodeService.activityQrCodeAsString(sessionId, a.getId()))
                         .build())
                 .toList();
     }

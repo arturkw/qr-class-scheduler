@@ -1,12 +1,17 @@
 package org.ahk.qrclassscheduler.registrationcode;
 
 import org.ahk.qrclassscheduler.registrationcode.model.ActivityRegistrationCode;
+import org.ahk.qrclassscheduler.registrationcode.model.ClassroomQrCode;
 
 import java.util.UUID;
 
 public interface RegistrationCodeService {
 
-    String registrationQrCode(String sessionId, UUID activityId);
+    String activityQrCodeAsString(String jSessionId, UUID activityId);
 
     ActivityRegistrationCode activityRegistrationCode(String registrationQrCode);
+
+    String classRoomQrCodeAsString(String jSessionId, String classRoomId);
+
+    ClassroomQrCode classRoomQrCode(String classroomQrCode);
 }

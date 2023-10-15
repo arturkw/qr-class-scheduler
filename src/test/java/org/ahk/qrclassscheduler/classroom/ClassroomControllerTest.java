@@ -1,5 +1,6 @@
 package org.ahk.qrclassscheduler.classroom;
 
+import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,9 @@ public class ClassroomControllerTest {
     @Test
     @DisplayName("get method: /api/v1/classrooms")
     public void get_classrooms_endpoint() throws Exception {
-        mockMvc.perform(get("/api/v1/classrooms").with(httpBasic("user1", "pass1")))
+        mockMvc.perform(get("/api/v1/classrooms")
+                        .with(httpBasic("user1", "pass1"))
+                        .cookie(new Cookie("JSESSIONID", "123")))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
