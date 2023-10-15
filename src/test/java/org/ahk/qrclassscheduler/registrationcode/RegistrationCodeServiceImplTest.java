@@ -16,7 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 
 @SpringBootTest
-@ActiveProfiles("prd")
+@ActiveProfiles("test")
 public class RegistrationCodeServiceImplTest {
 
     @Autowired

@@ -9,6 +9,7 @@ import org.ahk.qrclassscheduler.clock.ClockService;
 import org.ahk.qrclassscheduler.qrcode.QRCodeService;
 import org.ahk.qrclassscheduler.registrationcode.RegistrationCodeService;
 import org.ahk.qrclassscheduler.registrationcode.model.ActivityRegistrationCode;
+import org.ahk.qrclassscheduler.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -25,8 +26,9 @@ public class ActivityService {
     private final QRCodeService qrCodeService;
     private final RegistrationCodeService registrationCodeService;
     private final ClockService clockService;
+    private final ValidationService validationService;
 
-    private List<Activity> classRoomActivities(String classRoomQrCode) {
+    public List<Activity> classRoomActivities(String classRoomQrCode) {
         String classRoomId = qrCodeService.decode(classRoomQrCode);
         return activitiesByClassRoom.get(classRoomId);
     }
@@ -51,7 +53,7 @@ public class ActivityService {
         String activityId = registrationCode.getActivityId();
         findActivity(activityId)
                 .ifPresentOrElse(activity -> {
-                    validate(activity, userName);
+                    validationService.validate(userName, activity);
                     activity.getRegisteredUsers().add(userName);
                 }, () -> {
                     throw new RuntimeException("Activity not found!");
@@ -63,18 +65,6 @@ public class ActivityService {
                 .stream()
                 .flatMap(Collection::stream)
                 .filter(a -> activityId.equals(a.getId().toString())).findFirst();
-    }
-
-    private void validate(Activity activity, String userName) {
-        if (activity.getClassroom().getSize() <= activity.getRegisteredUsers().size()) {
-            throw new RuntimeException("All seats are occupied.");
-        }
-        if (activity.getStartDate().isBefore(clockService.localDateTimeNow())) {
-            throw new RuntimeException("Course activity already started.");
-        }
-        if (activity.getRegisteredUsers().contains(userName)) {
-            throw new RuntimeException("User already registered.");
-        }
     }
 
 }
