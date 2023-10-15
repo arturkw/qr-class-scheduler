@@ -1,0 +1,25 @@
+### GET ALL CLASSROOM IDS
+# @name http://localhost:8080/api/v1/classrooms
+GET http://localhost:8080/api/v1/classrooms
+Authorization: Basic user1 pass1
+
+### GET ALL ACTIVITIES FROM GIVEN CLASS
+# @name http://localhost:8080/api/v1/activities
+GET http://localhost:8080/api/v1/activities
+Authorization: Basic user1 pass1
+Content-Type: application/json
+
+{
+  "classRoomQrCode": "BDLW"
+}
+
+### ASSIGN USER TO ACTIVITY
+# @name http://localhost:8080/api/v1/activities
+POST http://localhost:8080/api/v1/activities
+Authorization: Basic user1 pass1
+Content-Type: application/json
+
+{
+  "registrationQrCode": "{\"activityId\":\"29dd46f6-cdca-4cfb-98eb-147e7240d03b\",\"sessionId\":\"FA87EB8AED60C1803F84E2507A1F06D8\",\"expiresAt\":\"2023-10-14T22:52:39.550197395\"}"
+}
+
